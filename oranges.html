@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Code Input</title>
+    <style>
+        @keyframes matrix {
+            0% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        body {
+            background-color: black;
+            color: red;
+            font-family: monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            color: #FF5A5F;
+            font-weight: bold;
+            font-size: 3em;
+        }
+        h2 {
+            color: #FF5A5F;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .matrix span {
+            position: absolute;
+            top: -50px;
+            font-size: 12px;
+            color: rgba(255, 0, 0, 0.7);
+            font-family: monospace;
+            animation: matrix linear infinite;
+        }
+        .code-container {
+            position: relative;
+            z-index: 10;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            gap: 10px;
+            justify-content: center;
+        }
+        .code-button {
+            font-size: 24px;
+            padding: 10px;
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            background-color: black;
+            color: red;
+            border: 2px solid red;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .retry-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .retry-button {
+            font-size: 20px;
+            padding: 10px 20px;
+            background-color: black;
+            color: red;
+            border: 2px solid red;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>CONNECTING MINDS</h1>
+    <h2>INSÉRER LE CODE SECRET</h2>
+    <div class="matrix"></div>
+    <div class="code-container">
+        <button class="code-button" onclick="checkCode(0)">0</button>
+        <button class="code-button" onclick="checkCode(1)">1</button>
+        <button class="code-button" onclick="checkCode(2)">2</button>
+        <button class="code-button" onclick="checkCode(3)">3</button>
+        <button class="code-button" onclick="checkCode(4)">4</button>
+        <button class="code-button" onclick="checkCode(5)">5</button>
+        <button class="code-button" onclick="checkCode(6)">6</button>
+        <button class="code-button" onclick="checkCode(7)">7</button>
+        <button class="code-button" onclick="checkCode(8)">8</button>
+        <button class="code-button" onclick="checkCode(9)">9</button>
+    </div>
+    <div class="result"></div>
+    <div class="retry-container">
+        <button class="retry-button" onclick="retry()">Réessayer</button>
+    </div>
+    <script>
+        let enteredCode = "";
+        function checkCode(num) {
+            enteredCode += num;
+            if (enteredCode.length === 3) {
+                let result = document.querySelector('.result');
+                let retryButton = document.querySelector('.retry-button');
+                if (enteredCode === "576") {
+                    result.innerText = "CORRECT";
+                    result.style.color = "green";
+                } else {
+                    result.innerText = "ERREUR";
+                    result.style.color = "red";
+                    retryButton.style.display = "block";
+                }
+            }
+        }
+        function retry() {
+            enteredCode = "";
+            document.querySelector('.result').innerText = "";
+            document.querySelector('.retry-button').style.display = "none";
+        }
+        function generateMatrix() {
+            const matrix = document.querySelector('.matrix');
+            for (let i = 0; i < 200; i++) {
+                let span = document.createElement('span');
+                span.innerText = Math.floor(Math.random() * 10);
+                span.style.left = `${Math.random() * 100}vw`;
+                span.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                matrix.appendChild(span);
+                setTimeout(() => { matrix.removeChild(span); }, 5000);
+            }
+            setTimeout(generateMatrix, 500);
+        }
+        generateMatrix();
+    </script>
+</body>
+</html>
